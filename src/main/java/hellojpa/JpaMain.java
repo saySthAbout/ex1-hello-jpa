@@ -16,17 +16,18 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member findMember = em.find(Member.class, 1L);
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1) //1번 부터
-                    .setMaxResults(10) //10개 가져와 => pagination을 각 방언에 맞게 알아서 sql문으로 번역해준다. (persistence.xml에서 설정)
-                    .getResultList();
+            //비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
 
-            for (Member member : result) {
-                System.out.println("member.name = " + member.getName());
-            }
+            //영속
+            System.out.println("=== BEFORE ===");
+            em.persist(member);
+            em.detach(member);
+            System.out.println("=== AFTER ===");
 
-            tx.commit();
+            tx.commit(); // 이 시점에 query가 실행된다.
         }catch(Exception e){
             tx.rollback();
         }finally {
