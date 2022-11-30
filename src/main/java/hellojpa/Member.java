@@ -12,6 +12,14 @@ public class Member {
     private Long id;
     private String name;
 
+    public Member() { //JPA는 동적으로 뭐 생성하는게 어쩌구 해서 기본 생성자가 1개 있어야 오류가 안난다.
+    }
+
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
