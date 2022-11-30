@@ -6,12 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MBR")
 public class Member {
 
     @Id
     private Long id;
-    private String name;
+    @Column(unique = true, length=10)
+    private String name;    
+    private int gogo;
 
     public Member() { //JPA는 동적으로 뭐 생성하는게 어쩌구 해서 기본 생성자가 1개 있어야 오류가 안난다.
     }
