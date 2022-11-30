@@ -17,11 +17,13 @@ public class JpaMain {
 
         try{
             //영속
-            Member member = em.find(Member.class, 150L);
-            member.setName("ZZZZZ");
+            Member member = new Member(200L, "member200");
+            em.persist(member);
+
+            em.flush();
 
             System.out.println("====================");
-            tx.commit(); // 이 시점에 query가 실행된다.
+            tx.commit();
         }catch(Exception e){
             tx.rollback();
         }finally {
