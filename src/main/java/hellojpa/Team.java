@@ -1,9 +1,8 @@
 package hellojpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Team {
@@ -12,6 +11,17 @@ public class Team {
     @Column(name = "TEAM_ID")
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "team") //mappedBy는 뭐냐면 1대N 매핑에서 반대편 사이트의 필드를 적어주는 것이다.
+    private List<Member> members = new ArrayList<>(); //관례인데 이렇게 하면 add할때 null poionter가 안 뜬다.
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
 
     public Long getId() {
         return id;
