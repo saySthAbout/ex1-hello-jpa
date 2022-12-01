@@ -20,22 +20,25 @@ public class JpaMain {
             //저장
             Team team = new Team();
             team.setName("TeamA");
+//            team.getMembers().add(member);
             em.persist(team); // 영속 상태가 되려면 무조건 PK값이 세팅이 되고 나서 영속상태가 된다.
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team); //JPA가 알아서 team에서 PK를 꺼내서 FK로 사용한다.
+
             em.persist(member);
 
-            em.flush();
-            em.clear();
+            team.addMember(member);
 
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers(); //양방향 연관관계
+//            em.flush();
+//            em.clear();
 
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
-            }
+            Team findTeam = em.find(Team.class, team.getId()); //1차 캐시에 있다.
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("============");
+            System.out.println("members = " + findTeam);
+            System.out.println("============");
 
             tx.commit();
         }catch(Exception e){
