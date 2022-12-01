@@ -16,32 +16,29 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member1 = new Member();
-            member1.setUsername("A");
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            //저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team); // 영속 상태가 되려면 무조건 PK값이 세팅이 되고 나서 영속상태가 된다.
 
-            Member member3 = new Member();
-            member3.setUsername("C");
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team); //JPA가 알아서 team에서 PK를 꺼내서 FK로 사용한다.
+            em.persist(member);
 
-            System.out.println("==============");
+            em.flush();
+            em.clear();
 
-            em.persist(member1); //1, 51
-            em.persist(member2); //MEMORY
-            em.persist(member3); //MEMORY
-
-            System.out.println("member1 = " + member1.getId());
-            System.out.println("member2 = " + member2.getId());
-            System.out.println("member3 = " + member3.getId());
-
-            System.out.println("==============");
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam = " + findTeam.getName());
 
             tx.commit();
         }catch(Exception e){
             tx.rollback();
         }finally {
-            em.close(); // EntityManager가 내부적으로 트랜잭션을 물고 있기 때문에 꼭 닫아줘야 한다.
+            em.close();
         }
         emf.close();
     }
