@@ -9,22 +9,15 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@SequenceGenerator(
-    name = "MEMBER_SEQ_GENERATOR",
-    sequenceName = "MEMBER_SEQ",
-    initialValue = 1, allocationSize = 50)
 public class Member {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
     @Column(name = "USERNAME")
     private String username;
 
-//    @Column(name = "TEAM_ID")
-//    private Long teamId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
