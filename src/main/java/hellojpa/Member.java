@@ -3,15 +3,11 @@ package hellojpa;
 import net.bytebuddy.agent.builder.AgentBuilder;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity{
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
@@ -42,7 +38,7 @@ public class Member {
         return username;
     }
 
-    public void setName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
