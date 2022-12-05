@@ -3,9 +3,6 @@ package hellojpa;
 import net.bytebuddy.agent.builder.AgentBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 public class Member extends BaseEntity{
     @Id @GeneratedValue
@@ -19,12 +16,13 @@ public class Member extends BaseEntity{
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) //매핑은 되고 쓰는데 읽기 전용이 된다.
     private Team team;
 
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
+    public Team getTeam() {
+        return team;
+    }
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberProduct> memberProducts = new ArrayList<>();
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 
     public Long getId() {
         return id;
