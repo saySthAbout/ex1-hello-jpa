@@ -16,14 +16,21 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = saveMember(em);
 
-            Team team = new Team();
-            team.setName("teamA");
-            team.getMembers().add(member);
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbb");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
 
-            em.persist(team);
+            em.persist(movie);
 
+            em.flush();
+            em.clear();
+
+            Item item = em.find(Item.class, movie.getId());
+            System.out.println("item = " + item);
+            
             tx.commit();
         }catch(Exception e){
             tx.rollback();
