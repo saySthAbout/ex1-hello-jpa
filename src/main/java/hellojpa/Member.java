@@ -3,26 +3,38 @@ package hellojpa;
 import net.bytebuddy.agent.builder.AgentBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
 @Entity
-public class Member extends BaseEntity{
-    @Id @GeneratedValue
+public class Member {
+
+    @Id
+    @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
 
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    //기간
+    @Embedded
+    private Period workPeriod;
 
-    public Team getTeam() {
-        return team;
-    }
+    //주소
+    @Embedded
+    private Address homeAddress;
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+    //주소
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",
+            column=@Column(name = "WORI_CITY")),
+            @AttributeOverride(name="street",
+            column=@Column(name = "WORI_STREET")),
+            @AttributeOverride(name="zipcode",
+            column=@Column(name = "WORI_ZIPCODE")),
+    })
+    private Address workAddress;
 
     public Long getId() {
         return id;
@@ -40,4 +52,19 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
+
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
 }
